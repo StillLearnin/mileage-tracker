@@ -8,6 +8,7 @@
         Title="MainWindow"
         FontSize="15"
         SizeToContent="WidthAndHeight"
+        WindowState="Maximized"
         Closing="Window_Closing">
     <Grid Margin="40">
         <Grid.ColumnDefinitions>
@@ -86,12 +87,16 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Date"
+                                        Width="100"
                                         DisplayMemberBinding="{Binding Path=Date, Mode=OneTime}" />
                         <GridViewColumn Header="Destination"
+                                        Width="100"
                                         DisplayMemberBinding="{Binding Path=Destination, Mode=OneTime}" />
                         <GridViewColumn Header="Vehicle"
+                                        Width="150"
                                         DisplayMemberBinding="{Binding Path=Vehicle, Mode=OneTime}" />
                         <GridViewColumn Header="Miles"
+                                        Width="100"
                                         DisplayMemberBinding="{Binding Path=Distance, Mode=OneTime}" />
                     </GridView>
                 </ListView.View>
