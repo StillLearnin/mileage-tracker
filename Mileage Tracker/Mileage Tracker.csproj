@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Types\SimpleTripInfo.cs" />
     <Compile Include="Types\TripInfo.cs" />
     <Page Include="DigitPad.xaml">
       <SubType>Designer</SubType>

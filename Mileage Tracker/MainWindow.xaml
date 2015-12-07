@@ -10,69 +10,92 @@
         SizeToContent="WidthAndHeight"
         Closing="Window_Closing">
     <Grid Margin="40">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <!--<Label Content="Vehicle"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!--<Label Content="Vehicle"
                    Style="{StaticResource LabelStyle}"
                    Grid.Row="0"
                    Grid.Column="0" />-->
-            <ComboBox SelectedItem="{Binding Path=Trip.Vehicle}"
-                      ItemsSource="{Binding Vehicles}"
-                      Style="{StaticResource comboStyle}"
-                      Grid.Row="0"
-                      Grid.Column="1" />
-            <!--<Label Content="Destination"
+                <ComboBox SelectedItem="{Binding Path=Trip.Vehicle}"
+                          ItemsSource="{Binding Vehicles}"
+                          Style="{StaticResource comboStyle}"
+                          Grid.Row="0"
+                          Grid.Column="1" />
+                <!--<Label Content="Destination"
                    Style="{StaticResource LabelStyle}"
                    Grid.Row="1"
                    Grid.Column="0" />-->
-            <ComboBox SelectedItem="{Binding Path=Trip.Destination}"
-                      ItemsSource="{Binding Destinations}"
-                      Style="{StaticResource comboStyle}"
-                      Grid.Row="1"
-                      Grid.Column="1" />
+                <ComboBox SelectedItem="{Binding Path=Trip.Destination}"
+                          ItemsSource="{Binding Destinations}"
+                          Style="{StaticResource comboStyle}"
+                          Grid.Row="1"
+                          Grid.Column="1" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Content="Mileage Start"
+                       Style="{StaticResource labelHeaderStyle}" />
+                <Label Content="Mileage End"
+                       Style="{StaticResource labelHeaderStyle}"
+                       Grid.Column="1" />
+                <local:Odometer Value="{Binding Path=Trip.Start}"
+                                Style="{StaticResource odometerStyle}"
+                                Grid.Row="1"
+                                Grid.Column="0" />
+                <local:Odometer Value="{Binding Path=Trip.End}"
+                                Style="{StaticResource odometerStyle}"
+                                Grid.Row="1"
+                                Grid.Column="1" />
+            </Grid>
+            <Button Click="SaveTrip_Click"
+                    Height="90"
+                    Margin="5"
+                    Grid.Row="2">
+                <Button.Content>
+                    <TextBlock Text="{Binding Path=Trip.TotalMiles, StringFormat='{}Save {0} Mile Trip'}" />
+                </Button.Content>
+            </Button>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Mileage Start"
-                   Style="{StaticResource labelHeaderStyle}"/>
-            <Label Content="Mileage End"
-                   Style="{StaticResource labelHeaderStyle}"
-                   Grid.Column="1"/>
-            <local:Odometer Value="{Binding Path=Trip.Start}"
-                            Style="{StaticResource odometerStyle}"
-                            Grid.Row="1"
-                            Grid.Column="0" />
-            <local:Odometer Value="{Binding Path=Trip.End}"
-                            Style="{StaticResource odometerStyle}"
-                            Grid.Row="1"
-                            Grid.Column="1" />
+        <Grid Grid.Column="1"
+              Margin="30,10,0,5">
+            <ListView ItemsSource="{Binding Trips}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Date"
+                                        DisplayMemberBinding="{Binding Path=Date, Mode=OneTime}" />
+                        <GridViewColumn Header="Destination"
+                                        DisplayMemberBinding="{Binding Path=Destination, Mode=OneTime}" />
+                        <GridViewColumn Header="Vehicle"
+                                        DisplayMemberBinding="{Binding Path=Vehicle, Mode=OneTime}" />
+                        <GridViewColumn Header="Miles"
+                                        DisplayMemberBinding="{Binding Path=Distance, Mode=OneTime}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
-        <Button Click="SaveTrip_Click"
-                Height="90"
-                Margin="5"
-                Grid.Row="2">
-            <Button.Content>
-                <TextBlock Text="{Binding Path=Trip.TotalMiles, StringFormat='{}Save {0} Mile Trip'}" />
-            </Button.Content>
-        </Button>
     </Grid>
 </Window>
