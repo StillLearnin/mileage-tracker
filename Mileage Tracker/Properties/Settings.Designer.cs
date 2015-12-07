@@ -46,29 +46,5 @@ namespace MileageTracker.Properties {
                 this["Destination"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int StartMiles {
-            get {
-                return ((int)(this["StartMiles"]));
-            }
-            set {
-                this["StartMiles"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int EndMiles {
-            get {
-                return ((int)(this["EndMiles"]));
-            }
-            set {
-                this["EndMiles"] = value;
-            }
-        }
     }
 }

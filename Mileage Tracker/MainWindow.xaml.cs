@@ -61,15 +61,15 @@ namespace MileageTracker
         #endregion //Trips
 
         #region Vehicles
-        public List<String> Vehicles
+        public List<Vehicle> Vehicles
         {
-            get { return (List<String>)GetValue(VehiclesProperty); }
+            get { return (List<Vehicle>)GetValue(VehiclesProperty); }
             set { SetValue(VehiclesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Vehicles.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VehiclesProperty =
-            DependencyProperty.Register("Vehicles", typeof(List<String>), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("Vehicles", typeof(List<Vehicle>), typeof(MainWindow), new PropertyMetadata(null));
         #endregion //Vehicles
 
         public MainWindow()
@@ -77,15 +77,13 @@ namespace MileageTracker
             InitializeComponent();
             DataContext = this;
             Destinations = new List<string>() { "ABC", "Martins" };
-            Vehicles = new List<string>() { "Buick", "Montanna", "Volvo" };
+            ReadTripsFile();
+            ReadVehiclesFile();
+
             Trip = new TripInfo();
             var s = Settings.Default;
             Trip.Destination = s.Destination;
-            Trip.Vehicle = s.Vehicle;
-            Trip.Start.Miles = s.StartMiles;
-            Trip.End.Miles = s.EndMiles;
-
-            ReadTripsFile();
+            Trip.Vehicle = Vehicles.FirstOrDefault(v => v.Name == s.Vehicle);
         }
 
         private void ReadTripsFile()
@@ -100,21 +98,39 @@ namespace MileageTracker
             }
         }
 
+        private void ReadVehiclesFile()
+        {
+            try
+            {
+                Vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(File.ReadAllText("Vehicles.txt"));
+            }
+            catch (Exception)
+            {
+                Vehicles = new List<Vehicle>()
+                {
+                    new Vehicle() { Name = "Buick", Odometer = 204615 },
+                    new Vehicle() { Name = "Montanna", Odometer = 146000 },
+                    new Vehicle() { Name = "Volvo", Odometer = 150000 }
+                };
+            }
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var s = Settings.Default;
             s.Destination = Trip.Destination;
-            s.Vehicle = Trip.Vehicle;
-            s.StartMiles = Trip.Start.Miles;
-            s.EndMiles = Trip.End.Miles;
+            s.Vehicle = Trip.Vehicle.Name;
             s.Save();
+            var jsonString = JsonConvert.SerializeObject(Vehicles, new JsonSerializerSettings() { Formatting = Formatting.Indented });
+            File.WriteAllText("Vehicles.txt", jsonString);
+
         }
 
         private void SaveTrip_Click(object sender, RoutedEventArgs e)
         {
             var newTrip = new SimpleTripInfo() {
                 Destination = Trip.Destination,
-                Vehicle = Trip.Vehicle,
+                Vehicle = Trip.Vehicle.Name,
                 Date = DateTime.Now.ToShortDateString(),
                 Start = Trip.Start.Miles,
                 End = Trip.End.Miles,
@@ -125,6 +141,7 @@ namespace MileageTracker
             var jsonString = JsonConvert.SerializeObject(Trips, new JsonSerializerSettings() { Formatting = Formatting.Indented });
             File.WriteAllText("Trips.txt", jsonString);
             ReadTripsFile();
+            Trip.Start.Miles = Trip.End.Miles;
         }
 
     }

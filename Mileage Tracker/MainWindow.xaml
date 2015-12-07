@@ -36,6 +36,7 @@
                    Grid.Row="0"
                    Grid.Column="0" />-->
                 <ComboBox SelectedItem="{Binding Path=Trip.Vehicle}"
+                          DisplayMemberPath="Name"
                           ItemsSource="{Binding Vehicles}"
                           Style="{StaticResource comboStyle}"
                           Grid.Row="0"

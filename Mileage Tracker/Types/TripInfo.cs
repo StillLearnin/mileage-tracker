@@ -92,10 +92,10 @@ namespace MileageTracker.Types
         #region Vehicle
         /// <summary>
         /// Store for the Vehicle property.</summary>
-        private String _Vehicle;
+        private Vehicle _Vehicle;
         /// <summary>
         /// Gets or sets Vehicle property.</summary>
-        public String Vehicle
+        public Vehicle Vehicle
         {
             get { return _Vehicle; }
             set
@@ -103,6 +103,10 @@ namespace MileageTracker.Types
                 if (_Vehicle == value) return;
                 _Vehicle = value;
                 OnPropertyChanged("Vehicle");
+                if (Vehicle != null)
+                {
+                    Start.Miles = Vehicle.Odometer;
+                }
             }
         }
         #endregion //Vehicle
