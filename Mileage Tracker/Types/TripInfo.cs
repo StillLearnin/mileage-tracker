@@ -106,6 +106,7 @@ namespace MileageTracker.Types
                 if (Vehicle != null)
                 {
                     Start.Miles = Vehicle.Odometer;
+                    End.Miles = Vehicle.Odometer;
                 }
             }
         }
