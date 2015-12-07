@@ -7,13 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow"
         FontSize="15"
-        SizeToContent="WidthAndHeight"
+        Width="1200"
         WindowState="Maximized"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        Height="700">
     <Grid Margin="40">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
