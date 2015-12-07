@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="MileageTracker.DigitScroller"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MileageTracker"
+             mc:Ignorable="d" 
+             Name="thisControl"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="buttonStyle"
+               TargetType="Button">
+            <Setter Property="MinHeight"
+                    Value="60" />
+            <Setter Property="Foreground"
+                    Value="DarkGray"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Button Content="+"
+                Click="Up"
+                Style="{StaticResource buttonStyle}"
+                Grid.Row="0"/>
+        <Button Content="{Binding Digit, ElementName=thisControl}"
+                Grid.Row="1"
+                Background="White"
+                Foreground="Black"
+                Style="{StaticResource buttonStyle}"
+                MinWidth="50" />
+        <Button Content="-"
+                Click="Down"
+                Style="{StaticResource buttonStyle}"
+                Grid.Row="2" />
+    </Grid>
+</UserControl>

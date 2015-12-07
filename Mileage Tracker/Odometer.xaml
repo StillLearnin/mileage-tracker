@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="MileageTracker.Odometer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MileageTracker"
+             mc:Ignorable="d" 
+             Name="thisControl">
+    <StackPanel Orientation="Horizontal">
+        <local:DigitScroller Digit="{Binding ElementName=thisControl, Path=Value.HundredThousands, Mode=TwoWay}" />
+        <local:DigitScroller Digit="{Binding ElementName=thisControl, Path=Value.TenThousands, Mode=TwoWay}" />
+        <local:DigitScroller Digit="{Binding ElementName=thisControl, Path=Value.OneThousands, Mode=TwoWay}" />
+        <local:DigitScroller Digit="{Binding ElementName=thisControl, Path=Value.Hundreds, Mode=TwoWay}" />
+        <local:DigitScroller Digit="{Binding ElementName=thisControl, Path=Value.Tens, Mode=TwoWay}" />
+        <local:DigitScroller Digit="{Binding ElementName=thisControl, Path=Value.Ones, Mode=TwoWay}" />
+    </StackPanel>
+</UserControl>
