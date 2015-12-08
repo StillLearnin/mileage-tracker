@@ -119,10 +119,12 @@ namespace MileageTracker
         {
             var s = Settings.Default;
             s.Destination = Trip.Destination;
-            s.Vehicle = Trip.Vehicle.Name;
-            s.Save();
+            if (Trip.Vehicle != null)
+                s.Vehicle = Trip.Vehicle.Name;
+
             var jsonString = JsonConvert.SerializeObject(Vehicles, new JsonSerializerSettings() { Formatting = Formatting.Indented });
             File.WriteAllText("Vehicles.txt", jsonString);
+            s.Save();
 
         }
 

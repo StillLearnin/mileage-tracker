@@ -48,7 +48,9 @@ namespace MileageTracker.Types
 
         private void _End_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-                OnPropertyChanged("TotalMiles");
+            OnPropertyChanged("TotalMiles");
+            if (Vehicle != null)
+                Vehicle.Odometer = End.Miles;
         }
         #endregion //End
 
@@ -73,7 +75,7 @@ namespace MileageTracker.Types
 
         private void _Start_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Miles" && Start.Miles > End.Miles)
+            if (e.PropertyName == "Miles")
                 End.Miles = Start.Miles;
             else
                 OnPropertyChanged("TotalMiles");
