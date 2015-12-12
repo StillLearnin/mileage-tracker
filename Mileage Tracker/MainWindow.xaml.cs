@@ -72,6 +72,19 @@ namespace MileageTracker
             DependencyProperty.Register("Trips", typeof(List<SimpleTripInfo>), typeof(MainWindow), new PropertyMetadata(null));
         #endregion //Trips
 
+        #region PreviousLogs
+        public List<FileInfo> PreviousLogs
+        {
+            get { return (List<FileInfo>)GetValue(PreviousLogsProperty); }
+            set { SetValue(PreviousLogsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PreviousLogs.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PreviousLogsProperty =
+            DependencyProperty.Register("PreviousLogs", typeof(List<FileInfo>), typeof(MainWindow), new PropertyMetadata(null));
+        #endregion //PreviousLogs
+
+
         #region Vehicles
         public List<Vehicle> Vehicles
         {
@@ -111,6 +124,11 @@ namespace MileageTracker
                     ReadDestinationsFile();
                 }
             }
+        }
+
+        private void ReadPreviousLogsFiles()
+        {
+
         }
 
         private void ReadDestinationsFile()
@@ -196,7 +214,26 @@ namespace MileageTracker
 
         private void CreateLog_Click(object sender, RoutedEventArgs e)
         {
+            var firstDate = Trips.Min(t => Convert.ToDateTime(t.Date));
+            var lastDate = Trips.Max(t => Convert.ToDateTime(t.Date));
+            var totalMiles = Trips.Sum(t => t.Distance);
 
+            var jsonString = JsonConvert.SerializeObject(
+                new {
+                    Miles = totalMiles,
+                    From = firstDate,
+                    To = lastDate,
+                    Details = Trips
+                }, 
+                new JsonSerializerSettings() { Formatting = Formatting.Indented });
+            var fileName = String.Format("Mileage Log from {0} to {1} ({2} Miles).txt", 
+                firstDate.ToString("yyyy-MM-dd"), 
+                lastDate.ToString("yyyy-MM-dd"), 
+                totalMiles);
+            File.WriteAllText(fileName, jsonString);
+
+            Trips.Clear();
+            ReadPreviousLogsFiles();
         }
     }
 }

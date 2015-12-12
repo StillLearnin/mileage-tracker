@@ -52,7 +52,7 @@
                           Grid.Row="1"
                           Grid.Column="1" />
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -78,11 +78,23 @@
             <Button Click="SaveTrip_Click"
                     Height="90"
                     Margin="5"
-                    Grid.Row="3">
+                    Grid.Row="2">
                 <Button.Content>
                     <TextBlock Text="{Binding Path=Trip.TotalMiles, StringFormat='{}Save {0} Mile Trip'}" />
                 </Button.Content>
             </Button>
+            <Grid Grid.Row="3">
+                <ListView ItemsSource="{Binding PreviousLogs}"
+                      Grid.Row="1">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Previous Logs"
+                                        Width="500"
+                                        DisplayMemberBinding="{Binding Path=Name}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1"
               Margin="30,10,0,5">
