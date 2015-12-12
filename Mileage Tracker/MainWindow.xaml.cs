@@ -35,7 +35,19 @@ namespace MileageTracker
         public static readonly DependencyProperty DestinationsProperty =
             DependencyProperty.Register("Destinations", typeof(List<String>), typeof(MainWindow), new PropertyMetadata(null));
         #endregion //Destinations
-        
+
+        #region LogDescription
+        public String LogDescription
+        {
+            get { return (String)GetValue(LogDescriptionProperty); }
+            set { SetValue(LogDescriptionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LogDescription.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LogDescriptionProperty =
+            DependencyProperty.Register("LogDescription", typeof(String), typeof(MainWindow), new PropertyMetadata(String.Empty));
+        #endregion //LogDescription
+
         #region Trip
         public TripInfo Trip
         {
@@ -119,6 +131,14 @@ namespace MileageTracker
             try
             {
                 Trips = JsonConvert.DeserializeObject<List<SimpleTripInfo>>(File.ReadAllText("Trips.txt"));
+                var firstDate = Trips.Min(t => Convert.ToDateTime(t.Date));
+                var lastDate = Trips.Max(t => Convert.ToDateTime(t.Date));
+                LogDescription = string.Format("Create Log for:\n{0} trips totalling {1} miles\nfrom {2} to {3}",
+                    Trips.Count, 
+                    Trips.Sum(t => t.Distance), 
+                    firstDate.ToShortDateString(), 
+                    lastDate.ToShortDateString()
+                    );
             }
             catch (Exception)
             {
@@ -172,6 +192,11 @@ namespace MileageTracker
             File.WriteAllText("Trips.txt", jsonString);
             ReadTripsFile();
             Trip.Start.Miles = Trip.End.Miles;
+        }
+
+        private void CreateLog_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

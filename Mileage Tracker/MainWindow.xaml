@@ -90,6 +90,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <Button Content="{Binding Path=LogDescription}"
+                    Click="CreateLog_Click"
+                    HorizontalContentAlignment="Center"
+                    Height="90"
+                    Margin="0,0,0,5"/>
             <ListView ItemsSource="{Binding Trips}"
                       Grid.Row="1">
                 <ListView.View>
