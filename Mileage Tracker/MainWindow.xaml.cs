@@ -76,14 +76,42 @@ namespace MileageTracker
         {
             InitializeComponent();
             DataContext = this;
-            Destinations = new List<string>() { "ABC", "Martins" };
+            ReadDestinationsFile();
             ReadTripsFile();
             ReadVehiclesFile();
 
             Trip = new TripInfo();
+            Trip.PropertyChanged += Trip_PropertyChanged;
             var s = Settings.Default;
             Trip.Destination = s.Destination;
             Trip.Vehicle = Vehicles.FirstOrDefault(v => v.Name == s.Vehicle);
+        }
+
+        private void Trip_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if  (e.PropertyName == "Destination")
+            {
+                if (Destinations.Contains(Trip.Destination) == false)
+                {
+                    Destinations.Add(Trip.Destination);
+                    var jsonString = JsonConvert.SerializeObject(Destinations, new JsonSerializerSettings() { Formatting = Formatting.Indented });
+                    File.WriteAllText("Destinations.txt", jsonString);
+                    ReadDestinationsFile();
+                }
+            }
+        }
+
+        private void ReadDestinationsFile()
+        {
+            try
+            {
+                Destinations = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText("Destinations.txt"));
+                Destinations.Sort();
+            }
+            catch (Exception)
+            {
+                Destinations = new List<string>() { "ABC", "Martins", "Other" };
+            }
         }
 
         private void ReadTripsFile()
@@ -145,6 +173,5 @@ namespace MileageTracker
             ReadTripsFile();
             Trip.Start.Miles = Trip.End.Miles;
         }
-
     }
 }

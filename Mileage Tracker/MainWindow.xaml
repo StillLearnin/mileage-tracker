@@ -52,19 +52,6 @@
                           Grid.Row="1"
                           Grid.Column="1" />
             </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock TextAlignment="Right"
-                           VerticalAlignment="Center">
-                    Other<LineBreak />Destination
-                </TextBlock>
-                <TextBox Text="{Binding Path=Trip.Destination}"
-                         Style="{StaticResource TextBoxStyle}"
-                         Grid.Column="1"/>
-            </Grid>
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -99,7 +86,12 @@
         </Grid>
         <Grid Grid.Column="1"
               Margin="30,10,0,5">
-            <ListView ItemsSource="{Binding Trips}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding Trips}"
+                      Grid.Row="1">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Date"
@@ -118,5 +110,55 @@
                 </ListView.View>
             </ListView>
         </Grid>
+        <Border BorderThickness="1"
+                BorderBrush="DarkGray"
+                Background="White"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="20"
+                MinWidth="550">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="11" BlurRadius="23" />
+            </Border.Effect>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Trip.Destination}"
+                                         Value="Other">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility"
+                                            Value="Visible"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextAlignment="Right"
+                           VerticalAlignment="Center">
+                    Other<LineBreak />Destination
+                </TextBlock>
+                <TextBox Text="{Binding Path=Trip.Destination}"
+                         Style="{StaticResource TextBoxStyle}"
+                         Grid.Column="1"/>
+                <Button Content="Add"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10"
+                        FontSize="35"
+                        Padding="30,0"
+                        HorizontalAlignment="Right"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
