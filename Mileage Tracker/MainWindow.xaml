@@ -9,7 +9,6 @@
         FontSize="15"
         Width="1200"
         WindowState="Maximized"
-        Closing="Window_Closing"
         Height="700">
     <Grid Margin="40">
         <Grid.ColumnDefinitions>

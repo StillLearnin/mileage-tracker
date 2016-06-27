@@ -211,12 +211,6 @@ namespace MileageTracker
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveAppSettings();
-            WriteVehiclesFile();
-        }
-
         private void SaveAppSettings()
         {
             var s = Settings.Default;
