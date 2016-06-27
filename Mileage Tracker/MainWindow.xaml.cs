@@ -1,6 +1,7 @@
 ﻿using MileageTracker.Properties;
 using MileageTracker.Types;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -98,11 +99,24 @@ namespace MileageTracker
             DependencyProperty.Register("Vehicles", typeof(List<Vehicle>), typeof(MainWindow), new PropertyMetadata(null));
         #endregion //Vehicles
 
+        #region VehicleTotals
+        public ObservableCollection<SimpleTripInfo> VehicleTotals
+        {
+            get { return (ObservableCollection<SimpleTripInfo>)GetValue(VehicleTotalsProperty); }
+            set { SetValue(VehicleTotalsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for VehicleTotals.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty VehicleTotalsProperty =
+            DependencyProperty.Register("VehicleTotals", typeof(ObservableCollection<SimpleTripInfo>), typeof(MainWindow), new PropertyMetadata(null));
+        #endregion //VehicleTotals
+
         public MainWindow()
         {
             Trips = new ObservableCollection<SimpleTripInfo>();
             PreviousLogs = new ObservableCollection<FileInfo>();
             Destinations = new ObservableCollection<string>();
+            VehicleTotals = new ObservableCollection<SimpleTripInfo>();
 
             InitializeComponent();
             DataContext = this;
@@ -296,6 +310,28 @@ namespace MileageTracker
             WriteTripsFile();
             ReadTripsFile();
             ReadPreviousLogsFiles();
+        }
+
+        private void PrevLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VehicleTotals.Clear();
+            var lv = sender as ListView;
+
+            var logs = new List<SimpleTripInfo>();
+
+            foreach (FileInfo log in lv.SelectedItems)
+            {
+                JsonConvert.DeserializeObject<List<SimpleTripInfo>>(JObject.Parse(File.ReadAllText(log.FullName)).SelectToken("Details").ToString()).ForEach(t => logs.Add(t));
+            }
+
+            (from t in logs
+             group t by t.Vehicle into v
+             select v).ToList().ForEach(v => VehicleTotals.Add(
+                 new SimpleTripInfo()
+                 {
+                     Vehicle = v.First().Vehicle,
+                     Distance = v.Sum(t => t.Distance)
+                 }));
         }
     }
 }

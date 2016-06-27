@@ -85,6 +85,8 @@
             </Button>
             <Grid Grid.Row="3">
                 <ListView ItemsSource="{Binding PreviousLogs}"
+                          SelectionMode="Extended"
+                          SelectionChanged="PrevLogs_SelectionChanged"
                       Grid.Row="1">
                     <ListView.View>
                         <GridView>
@@ -101,6 +103,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Button Content="{Binding Path=LogDescription}"
                     Click="CreateLog_Click"
@@ -117,6 +120,19 @@
                         <GridViewColumn Header="Destination"
                                         Width="100"
                                         DisplayMemberBinding="{Binding Path=Destination, Mode=OneTime}" />
+                        <GridViewColumn Header="Vehicle"
+                                        Width="150"
+                                        DisplayMemberBinding="{Binding Path=Vehicle, Mode=OneTime}" />
+                        <GridViewColumn Header="Miles"
+                                        Width="100"
+                                        DisplayMemberBinding="{Binding Path=Distance, Mode=OneTime}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView ItemsSource="{Binding VehicleTotals}"
+                      Grid.Row="2">
+                <ListView.View>
+                    <GridView>
                         <GridViewColumn Header="Vehicle"
                                         Width="150"
                                         DisplayMemberBinding="{Binding Path=Vehicle, Mode=OneTime}" />
