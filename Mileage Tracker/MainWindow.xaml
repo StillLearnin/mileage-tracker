@@ -9,7 +9,6 @@
         FontSize="15"
         Width="1200"
         WindowState="Maximized"
-        Closing="Window_Closing"
         Height="700">
     <Grid Margin="40">
         <Grid.ColumnDefinitions>
@@ -21,7 +20,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
@@ -83,20 +82,18 @@
                     <TextBlock Text="{Binding Path=Trip.TotalMiles, StringFormat='{}Save {0} Mile Trip'}" />
                 </Button.Content>
             </Button>
-            <Grid Grid.Row="3">
-                <ListView ItemsSource="{Binding PreviousLogs}"
-                          SelectionMode="Extended"
-                          SelectionChanged="PrevLogs_SelectionChanged"
-                      Grid.Row="1">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Previous Logs"
+            <ListView ItemsSource="{Binding PreviousLogs}"
+                      Grid.Row="3">
+                      SelectionMode="Extended"
+                      SelectionChanged="PrevLogs_SelectionChanged"
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Previous Logs"
                                         Width="500"
                                         DisplayMemberBinding="{Binding Path=Name}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
         <Grid Grid.Column="1"
               Margin="30,10,0,5">
@@ -111,6 +108,7 @@
                     Height="90"
                     Margin="0,0,0,5"/>
             <ListView ItemsSource="{Binding Trips}"
+                      Margin="0,10,0,0"
                       Grid.Row="1">
                 <ListView.View>
                     <GridView>
