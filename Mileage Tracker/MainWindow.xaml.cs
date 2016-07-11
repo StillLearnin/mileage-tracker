@@ -253,10 +253,12 @@ namespace MileageTracker
             };
             Trips.Add(newTrip);
 
+            Trip.Start.Miles = Trip.End.Miles;
             SaveAppSettings();
             WriteTripsFile();
+            WriteVehiclesFile();
+
             ReadTripsFile();
-            Trip.Start.Miles = Trip.End.Miles;
             LoadAppSettings();
         }
 
